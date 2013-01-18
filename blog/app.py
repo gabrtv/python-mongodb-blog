@@ -40,9 +40,14 @@ def post():
 
 def connect_db():
     db_host = os.environ.get('MONGODB_HOST', 'localhost')
+    db_port = os.environ.get('MONGODB_PORT', 27017)
     replicaset = os.environ.get('MONGODB_REPLSET', None)
-    conn = pymongo.MongoClient(db_host, replicaset=replicaset, 
-                               read_preference=pymongo.ReadPreference.PRIMARY_PREFERRED)
+    if replicaset:
+        host_port = "%(db_host)s:%(db_port)s" % locals()
+        conn = pymongo.MongoReplicaSetClient(host_port, replicaSet=replicaset, 
+                    read_preference=pymongo.ReadPreference.PRIMARY_PREFERRED)
+    else:
+        conn = pymongo.MongoClient(db_host)
     return conn['blog']
 
 if __name__ == "__main__":
