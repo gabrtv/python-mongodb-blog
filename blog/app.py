@@ -2,11 +2,12 @@
 from flask import Flask, redirect
 from flask.globals import request
 from flask.templating import render_template
+from pymongo.errors import AutoReconnect
 import datetime
+import json
 import os
 import pymongo
 import time
-from pymongo.errors import AutoReconnect
 
 app = Flask(__name__)
 
@@ -43,11 +44,13 @@ def connect_db():
     db_port = os.environ.get('MONGODB_PORT', 27017)
     replicaset = os.environ.get('MONGODB_REPLSET', None)
     if replicaset:
-        conn_str = ",".join([ h+':'+str(db_port) for h in db_hosts.split(" ")])
+        hosts = json.loads(db_hosts)
+        conn_str = ",".join([ h+':'+str(db_port) for h in hosts])
         conn = pymongo.MongoReplicaSetClient(conn_str, replicaSet=replicaset, 
                     read_preference=pymongo.ReadPreference.PRIMARY_PREFERRED)
     else:
-        conn = pymongo.MongoClient(db_hosts)
+        db_host = json.loads(db_hosts)[0]
+        conn = pymongo.MongoClient(db_host)
     return conn['blog']
 
 if __name__ == "__main__":
