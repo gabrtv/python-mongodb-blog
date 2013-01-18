@@ -5,6 +5,8 @@ from flask.templating import render_template
 import datetime
 import os
 import pymongo
+import time
+from pymongo.errors import AutoReconnect
 
 app = Flask(__name__)
 
@@ -24,7 +26,14 @@ def post():
         # create a post in mongodb
         db = connect_db()
         post = {'title': title, 'body': body, 'date': datetime.datetime.now()}
-        db.posts.insert(post)
+        success, attempts = False, 1
+        while success is False and attempts < 10:
+            try:
+                db.posts.insert(post)
+                success = True
+            except AutoReconnect:
+                attempts += 1
+                time.sleep(3)
         return redirect('/')
     else:
         return render_template('post.html')
