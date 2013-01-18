@@ -1,0 +1,37 @@
+<html>
+	<head>
+	{% block head %}
+		<title>Simple Python/MongoDB Blog</title>
+		<!-- <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css"> -->
+		<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+		<style type="text/css">
+			#content { padding-top: 60px;}
+			#page-title { text-decoration: bold }
+		</style>
+	{% endblock %}
+	</head>
+	<body>
+	{% block body %}
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="brand" href="/">Simple Python/MongoDB Blog</a>
+					<div class="nav-collapse">
+						{% block navbar %}
+						<ul class="nav">
+							<li><a href="/post/new">New Post</a></li>
+						</ul>
+						{% endblock %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="content" class="container">
+		{% block content %}
+		{% endblock %}
+		</div>
+	{% endblock %}
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>	
+	</body>
+</html>
