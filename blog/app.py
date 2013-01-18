@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from flask import Flask, redirect
 from flask.globals import request
 from flask.templating import render_template
@@ -37,4 +38,6 @@ def connect_db():
 if __name__ == "__main__":
     # NOTE: debug True breaks PyDev debugger
     app.debug = os.environ.get('DEBUG', True)
-    app.run(host="0.0.0.0")
+    host = os.environ.get('BIND', '0.0.0.0')
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host=host, port=port)
