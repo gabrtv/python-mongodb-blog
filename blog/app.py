@@ -44,7 +44,7 @@ def connect_db():
     hosts = json.loads(os.environ.get('MONGODB_HOSTS', '["localhost"]'))
     db_port = json.loads(os.environ.get('MONGODB_PORT', 27017))
     replicaset = os.environ.get('MONGODB_REPLSET', None)
-    if replicaset:
+    if replicaset and replicaset != "null":
         conn_str = ",".join([ h+':'+str(db_port) for h in hosts])
         conn = pymongo.MongoReplicaSetClient(conn_str, replicaSet=replicaset, 
                     read_preference=pymongo.ReadPreference.PRIMARY_PREFERRED)
