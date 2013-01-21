@@ -42,7 +42,7 @@ def post():
 def connect_db():
     hosts = json.loads(os.environ.get('MONGODB_HOSTS', '["localhost"]'))
     db_port = json.loads(os.environ.get('MONGODB_PORT', 27017))
-    replicaset = json.loads(os.environ.get('MONGODB_REPLSET', None))
+    replicaset = os.environ.get('MONGODB_REPLSET', None)
     if replicaset:
         conn_str = ",".join([ h+':'+str(db_port) for h in hosts])
         conn = pymongo.MongoReplicaSetClient(conn_str, replicaSet=replicaset, 
