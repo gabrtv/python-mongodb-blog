@@ -9,7 +9,8 @@ import os
 import pymongo
 import time
 
-app = Flask(__name__)
+static_path = os.path.abspath(os.path.join(__file__, '..', '..', 'public', 'static'))
+app = Flask(__name__, static_folder=static_path)
 
 @app.route("/")
 def index():
