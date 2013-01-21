@@ -48,7 +48,7 @@ def connect_db():
         conn = pymongo.MongoReplicaSetClient(conn_str, replicaSet=replicaset, 
                     read_preference=pymongo.ReadPreference.PRIMARY_PREFERRED)
     else:
-        conn = pymongo.MongoClient("hosts[0]:"+str(db_port))
+        conn = pymongo.MongoClient(hosts[0]+":"+str(db_port))
     return conn['blog']
 
 if __name__ == "__main__":
